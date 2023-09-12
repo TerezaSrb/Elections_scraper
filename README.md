@@ -1,5 +1,5 @@
 # Elections_scraper
-Tento projekt slouží k extrahování výsledků parlamentní voleb v r. 2017
+Tento projekt slouží k extrahování výsledků parlamentní voleb v r. 2017 
 Knihovny, které jsou použity v kódu jsou uloženy v souboru requirements.txt
 Pro spuštění programu je nutné zadat dva povinné argumenty - konkrétní územní celek + výsledný soubor
 python projekt_3.py "Ostrava-město" "vysledky_ova.csv"
