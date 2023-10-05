@@ -23,18 +23,19 @@ DATA = []
 def get_tables(url):
     server_response = requests.get(url)
     soup = BeautifulSoup(server_response.text, 'html.parser')
+    soup.encode("utf-8")
     return soup.find_all("table", {"class": "table"})
 
 
-def select_area(url, area):
-    tables = get_tables(url)
-    for table in tables:
-        table_rows = table.find_all("tr")
-        for table_row in table_rows:
-            table_datas = table_row.find_all("td")
-            if len(table_datas) >= 4 and area == table_datas[1].text:
-                return table_datas[3].find("a").get('href')
-    return None
+
+def check_link(area):
+    server_response = requests.get(area)
+    soup = BeautifulSoup(server_response.text, 'html.parser')
+    soup.encode("utf-8")
+    headers_2 = soup.find_all("h2")
+    for header in headers_2:
+        return "Výsledky hlasování za územní celky – výběr obce" in header.text
+    return False
 
 
 def browse_all_municipalities(url):
@@ -156,7 +157,7 @@ def add_list_items(list1, list2):
 
 
 def save_in_csv(filename):
-    with open(filename, 'w', newline="") as f:
+    with open(filename, 'w', newline="", encoding="utf-8-sig") as f:
         write = csv.writer(f, delimiter=';')
         write.writerow(HEADER)
         write.writerows(DATA)
@@ -168,12 +169,11 @@ if __name__ == '__main__':
     elif not sys.argv[2].endswith(".csv"):
         print(f"Cílový soubor: {sys.argv[2]} není ve formátu .csv!")
 
-    area_link = select_area(MAIN_URL + "ps3?xjazyk=CZ", sys.argv[1])
-    if area_link is None:
-        print("Neplatný název územního celku!")
+    if not check_link(sys.argv[1]):
+        print("Neplatný odkaz!")
     else:
         municipality_codes, municipality_locations, municipality_links = \
-            browse_all_municipalities(MAIN_URL + area_link)
+            browse_all_municipalities(sys.argv[1])
         for location_index in range(len(municipality_codes)):
             get_data_for_municipality(municipality_codes[location_index],
                                       municipality_locations[location_index],
