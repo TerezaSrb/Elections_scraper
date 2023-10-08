@@ -1,10 +1,49 @@
-# Elections_scraper
-Tento projekt slouží k extrahování výsledků parlamentní voleb v r. 2017 
-Knihovny, které jsou použity v kódu jsou uloženy v souboru requirements.txt
-Pro spuštění programu je nutné zadat dva povinné argumenty - konkrétní územní celek + výsledný soubor
-python projekt_3.py "Ostrava-město" "vysledky_ova.csv"
-Výstup:
-code	location	registered	envelopes	valid
-506761	Alojzov	205	145	144	29	0	0	9	0	5	17	4	1	1	0	0	18	0	5	32	0	0	6	0	0	1	1	15	0
-589268	Bedihoš	834	527	524	51	0	0	28	1	13	123	2	2	14	1	0	34	0	6	140	0	0	26	0	0	0	0	82	1
-589276	Bílovice-Lutotín	431	279	275	13	0	0	32	0	8	40	1	0	4	0	0	30	0	3	83	0	0	22	0	0	0	1	38	0
+## Projekt Election Scraper
+
+### Popis projektu
+Třetí projekt na Python akademii od Engeta. Cílem projektu bylo vytvořit 
+skript, který z dané webové stránky vyscrapuje výsledky voleb pro daný územní 
+celek a uloží je do .csv souboru.
+
+### Instalace knihoven
+Knihovny, které jsou použity k extrahování výsledků, jsou uloženy v souboru 
+`requirements.txt`. Pro instalaci je doporučeno použít nové virtuální 
+prostředí a s nainstalovaným manažerem spustit následovně:
+
+    $pip3 --version
+    $pip3 install -r requirements.txt
+
+### Spuštění projektu
+Projekt je určený ke spuštění v příkazovém řádku a potřebuje dva povinné 
+argumenty:
+1. Odkaz na webovou stránku uzemního celku, pro který chceme výsledky získat
+2. Název souboru, do kterého se uloží získaná data
+
+Příklad spuštění projektu:
+
+    python main.py <odkaz-uzemniho-celku> <vystupni-soubor>
+
+### Ukázka projektu
+
+Výsledky hlasování pro okres Prostějov:
+1. argument: ```https://www.volby.cz/pls/ps2017nss/ps32?xjazyk=CZ&xkraj=12&xnumnuts=7103```
+2. argument `vysledky_prostejov.csv`
+
+Spuštění:
+
+    python main.py https://www.volby.cz/pls/ps2017nss/ps32?xjazyk=CZ&xkraj=12&xnumnuts=7103 vysledky_prostejov.csv
+
+Průběh stahování:
+
+    Vyčítání dat pro obec Alojzov.
+    Vyčítání dat pro obec Bedihošť.
+    Vyčítání dat pro obec Bílovice-Lutotín.
+    Vyčítání dat pro obec Biskupice.
+    Vyčítání dat pro obec Bohuslavice.
+    Vyčítání dat pro obec Bousín.
+    Vyčítání dat pro obec Brodek u Konice.
+    ...
+
+Výstupní .csv soubor obsahuje získaná data: jeden řádek pro jednu obec/okrsek. 
+Každý řádek obsahuje kód obce, název obce, počet voličů, počet vydaných 
+obálek, počet platných hlasů a počet hlasů pro jednotlivé politcké strany.
